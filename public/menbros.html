@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membros - Clan Uran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CssGlobal.css">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #0066ff;
+            --dark: #0a0a1a;
+            --light: #e0f7ff;
+            --accent: #ff00aa;
+            --commander: #ff0000;
+            --vice: #ff6600;
+            --officer: #ffcc00;
+            --member: #00cc00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--dark) 0%, #0a1232 100%);
+        }
+
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            min-height: 100px;
+            max-height: 150px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background-repeat: repeat no-repeat;
+            background-position: 0 bottom;
+            transform-origin: center bottom;
+            opacity: 0.6;
+        }
+
+        .wave-1 {
+            background-size: 50% 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%2300f7ff"/></svg>');
+            animation: wave 12s linear infinite;
+        }
+
+        .wave-2 {
+            background-size: 50% 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%230066ff" opacity=".5"/></svg>');
+            animation: wave 10s linear -5s infinite;
+        }
+
+        .wave-3 {
+            background-size: 50% 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ff00aa" opacity=".3"/></svg>');
+            animation: wave 8s linear -2s infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0) translateZ(0) scaleY(1); }
+            50% { transform: translateX(-25%) translateZ(0) scaleY(0.8); }
+            100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            padding-bottom: 250px;
+        }
+
+        header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--primary));
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { filter: drop-shadow(0 0 10px var(--primary)); }
+            100% { filter: drop-shadow(0 0 20px var(--accent)); }
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu li a {
+            color: var(--light);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .members-container {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .members-section {
+            background: rgba(10, 10, 26, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            background: rgba(20, 20, 40, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card.commander {
+            border-left: 4px solid var(--commander);
+        }
+
+        .member-card.vice {
+            border-left: 4px solid var(--vice);
+        }
+
+        .member-card.officer {
+            border-left: 4px solid var(--officer);
+        }
+
+        .member-card.member {
+            border-left: 4px solid var(--member);
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .member-rank {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .commander .member-rank {
+            background: rgba(255, 0, 0, 0.1);
+            color: var(--commander);
+        }
+
+        .vice .member-rank {
+            background: rgba(255, 102, 0, 0.1);
+            color: var(--vice);
+        }
+
+        .officer .member-rank {
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--officer);
+        }
+
+        .member .member-rank {
+            background: rgba(0, 204, 0, 0.1);
+            color: var(--member);
+        }
+
+        .member-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: rgba(0, 247, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .edit-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .delete-btn {
+            background: rgba(255, 0, 170, 0.1);
+            color: var(--accent);
+        }
+
+        .delete-btn:hover {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 26, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--light);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed rgba(0, 247, 255, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: rgba(0, 247, 255, 0.05);
+        }
+
+        .image-upload i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 15px;
+            display: none;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.5);
+        }
+
+        .warning {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .no-members {
+            text-align: center;
+            padding: 40px 0;
+            color: rgba(255, 255, 255, 0.5);
+            grid-column: 1 / -1;
+        }
+
+        .add-member-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .add-member-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.8);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .member-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeito de partículas -->
+    <div id="particles-js"></div>
+
+    <!-- Efeito de ondas -->
+    <div class="waves">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="IMG/Logo.png" alt="Clan Uran Logo">
+                <span class="logo-text">Clan Uran</span>
+            </div>
+            <!-- Menu de navegação mobile -->
+<nav class="mobile-nav">
+    <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="builds.html" class="mobile-nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Builds</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="menbros.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i>
+                <span>Membros</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="estatistica.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Estatísticas</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="#" class="mobile-nav-link">
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="builds.html">Builds</a></li>
+                    <li><a href="estatistica.html">Estatísticas</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="members-container">
+                <section class="members-section">
+                    <div class="members-header">
+                        <h2 class="section-title">Membros do Clan</h2>
+                        <button id="add-member-btn" class="add-member-btn">Adicionar Membro</button>
+                    </div>
+                    
+                    <div class="members-grid" id="members-grid">
+                        <div class="no-members">Carregando membros...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para adicionar/editar membro -->
+    <div id="member-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title" id="modal-title">Adicionar Novo Membro</h2>
+            
+            <form id="member-form">
+                <input type="hidden" id="member-id">
+                
+                <div class="form-group">
+                    <label for="nickname">Nickname*</label>
+                    <input type="text" id="nickname" required placeholder="Ex: UranPlayer123">
+                </div>
+                
+                <div class="form-group">
+                    <label for="rank">Posição no Clan*</label>
+                    <select id="rank" required>
+                        <option value="">Selecione a posição</option>
+                        <option value="commander">Comandante</option>
+                        <option value="vice">Vice-Comandante</option>
+                        <option value="officer">Oficial</option>
+                        <option value="member">Membro</option>
+                    </select>
+                    <p class="warning">Atenção: Posições incorretas serão corrigidas ou o membro será removido</p>
+                </div>
+                
+                <div class="form-group">
+                    <label>Foto do Membro (Opcional)</label>
+                    <label class="image-upload" for="member-image">
+                        <i class="fas fa-upload"></i>
+                        <span>Clique para enviar uma imagem (max 500KB)</span>
+                        <input type="file" id="member-image" accept="image/*">
+                        <img id="member-image-preview" class="image-preview" alt="Pré-visualização da imagem">
+                    </label>
+                </div>
+                
+                <button type="submit" class="submit-btn">Salvar Membro</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="JsGlobal.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+    // Inicializar partículas
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 60, density: { enable: true, value_area: 800 } },
+            color: { value: ["#00f7ff", "#0066ff", "#ff00aa"] },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: { enable: true, distance: 150, color: "#00f7ff", opacity: 0.2, width: 1 },
+            move: { enable: true, speed: 1 }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "grab" },
+                onclick: { enable: true, mode: "push" },
+                resize: true
+            }
+        }
+    });
+
+    // Variáveis globais
+    let memberImageBase64 = '';
+    let membersData = [];
+    let currentMemberId = null;
+
+    // Elementos do DOM
+    const addMemberBtn = document.getElementById('add-member-btn');
+    const memberModal = document.getElementById('member-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const memberForm = document.getElementById('member-form');
+    const membersGrid = document.getElementById('members-grid');
+    const modalTitle = document.getElementById('modal-title');
+
+    // Abrir modal para adicionar novo membro
+    addMemberBtn.addEventListener('click', () => {
+        currentMemberId = null;
+        modalTitle.textContent = 'Adicionar Novo Membro';
+        memberForm.reset();
+        document.getElementById('member-image-preview').style.display = 'none';
+        memberImageBase64 = '';
+        memberModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Fechar modal
+    closeModal.addEventListener('click', () => {
+        memberModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    // Fechar modal ao clicar fora
+    window.addEventListener('click', (e) => {
+        if (e.target === memberModal) {
+            memberModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Preview da imagem e conversão para Base64
+    document.getElementById('member-image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (!file) {
+            memberImageBase64 = '';
+            document.getElementById('member-image-preview').style.display = 'none';
+            return;
+        }
+        
+        // Verificar tamanho do arquivo (max 500KB)
+        if (file.size > 500 * 1024) {
+            alert('A imagem deve ter no máximo 500KB');
+            this.value = '';
+            return;
+        }
+        
+        // Verificar tipo do arquivo
+        if (!file.type.match('image.*')) {
+            alert('Por favor, selecione um arquivo de imagem');
+            this.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const preview = document.getElementById('member-image-preview');
+            preview.src = event.target.result;
+            preview.style.display = 'block';
+            memberImageBase64 = event.target.result.split(',')[1]; // Remove o prefixo
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Carregar membros do servidor
+  async function loadMembers() {
+    try {
+        membersGrid.innerHTML = '<div class="no-members">Carregando membros...</div>';
+        
+        const response = await fetch('http://localhost:3000/api/members');
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        // Verificar a estrutura da resposta
+        if (!result.success || !Array.isArray(result.data)) {
+            throw new Error('Formato de dados inválido da API');
+        }
+        
+        membersData = result.data;
+        renderMembers(membersData);
+    } catch (error) {
+        console.error('Erro ao carregar membros:', error);
+        membersGrid.innerHTML = `
+            <div class="no-members">
+                Erro ao carregar membros: ${error.message}<br>
+                <button onclick="loadMembers()">Tentar novamente</button>
+            </div>
+        `;
+    }
+}
+    // Renderizar membros na tela
+    
+    function renderMembers(members) {
+    if (!Array.isArray(members)) {
+        console.error('Dados de membros inválidos:', members);
+        membersGrid.innerHTML = '<div class="no-members">Formato de dados inválido</div>';
+        return;
+    }
+
+    if (members.length === 0) {
+        membersGrid.innerHTML = '<div class="no-members">Nenhum membro cadastrado ainda.</div>';
+        return;
+    }
+    
+    // Ordenar membros por posição
+    const sortedMembers = [...members].sort((a, b) => {
+        const rankOrder = { commander: 1, vice: 2, officer: 3, member: 4 };
+        return rankOrder[a.rank] - rankOrder[b.rank];
+    });
+    
+    membersGrid.innerHTML = '';
+    
+    sortedMembers.forEach(member => {
+        const memberCard = document.createElement('div');
+        memberCard.className = `member-card ${member.rank}`;
+        
+        let rankTitle = '';
+        switch(member.rank) {
+            case 'commander': rankTitle = 'Comandante'; break;
+            case 'vice': rankTitle = 'Vice-Comandante'; break;
+            case 'officer': rankTitle = 'Oficial'; break;
+            default: rankTitle = 'Membro';
+        }
+        
+        memberCard.innerHTML = `
+            <div class="member-header">
+                ${member.image ? `<img src="data:image/jpeg;base64,${member.image}" class="member-avatar" alt="${member.nickname}">` : 
+                '<div class="member-avatar"><i class="fas fa-user" style="font-size: 2rem; color: #666;"></i></div>'}
+                <div class="member-info">
+                    <div class="member-name">${member.nickname}</div>
+                    <div class="member-rank">${rankTitle}</div>
+                </div>
+            </div>
+            <div class="member-actions">
+                <button class="action-btn edit-btn" data-id="${member._id}">Editar</button>
+                <button class="action-btn delete-btn" data-id="${member._id}">Remover</button>
+            </div>
+        `;
+        membersGrid.appendChild(memberCard);
+    });
+    
+    // Adicionar event listeners
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const memberId = e.target.getAttribute('data-id');
+            editMember(memberId);
+        });
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const memberId = e.target.getAttribute('data-id');
+            deleteMember(memberId);
+        });
+    });
+}
+    // Editar membro existente
+    function editMember(memberId) {
+        const member = membersData.find(m => m._id === memberId);
+        if (!member) {
+            alert('Membro não encontrado');
+            return;
+        }
+        
+        currentMemberId = memberId;
+        modalTitle.textContent = 'Editar Membro';
+        
+        // Preencher formulário com os dados do membro
+        document.getElementById('member-id').value = member._id;
+        document.getElementById('nickname').value = member.nickname;
+        document.getElementById('rank').value = member.rank;
+        
+        // Carregar imagem se existir
+        if (member.image) {
+            const preview = document.getElementById('member-image-preview');
+            preview.src = `data:image/jpeg;base64,${member.image}`;
+            preview.style.display = 'block';
+            memberImageBase64 = member.image;
+        } else {
+            document.getElementById('member-image-preview').style.display = 'none';
+            memberImageBase64 = '';
+        }
+        
+        memberModal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Remover membro
+  async function deleteMember(memberId) {
+    if (!confirm('Tem certeza que deseja remover este membro?')) return;
+    
+    try {
+        const response = await fetch(`http://localhost:3000/api/members/${memberId}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || 'Erro ao remover membro');
+        }
+        
+        await loadMembers();
+        alert('Membro removido com sucesso!');
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao remover membro: ' + error.message);
+    }
+}
+
+// Enviar formulário de membro
+memberForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const nickname = document.getElementById('nickname').value.trim();
+    const rank = document.getElementById('rank').value;
+    
+    if (!nickname || !rank) {
+        alert('Por favor, preencha todos os campos obrigatórios');
+        return;
+    }
+    
+    const memberData = {
+        nickname,
+        rank,
+        image: memberImageBase64 || null
+    };
+    
+    try {
+        let url = 'http://localhost:3000/api/members';
+        let method = 'POST';
+        
+        if (currentMemberId) {
+            url = `http://localhost:3000/api/members/${currentMemberId}`;
+            method = 'PUT';
+        }
+        
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(memberData)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || 'Erro ao salvar membro');
+        }
+        
+        // Limpar formulário e fechar modal
+        memberForm.reset();
+        document.getElementById('member-image-preview').style.display = 'none';
+        memberImageBase64 = '';
+        memberModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        
+        await loadMembers();
+        
+        alert(currentMemberId ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!');
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao salvar membro: ' + error.message);
+    }
+});
+    // Enviar formulário de membro
+    memberForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const nickname = document.getElementById('nickname').value.trim();
+        const rank = document.getElementById('rank').value;
+        
+        // Validar campos obrigatórios
+        if (!nickname || !rank) {
+            alert('Por favor, preencha todos os campos obrigatórios');
+            return;
+        }
+        
+        const memberData = {
+            nickname,
+            rank,
+            image: memberImageBase64 || null
+        };
+        
+        try {
+            let response;
+            const url = currentMemberId 
+                ? `http://localhost:3000/api/members/${currentMemberId}` 
+                : 'http://localhost:3000/api/members';
+            const method = currentMemberId ? 'PUT' : 'POST';
+            
+            response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(memberData)
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro ao salvar membro');
+            }
+            
+            // Limpar formulário e fechar modal
+            memberForm.reset();
+            document.getElementById('member-image-preview').style.display = 'none';
+            memberImageBase64 = '';
+            memberModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Recarregar membros
+            await loadMembers();
+            
+            // Mostrar mensagem de sucesso
+            alert(currentMemberId ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!');
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao salvar membro: ' + error.message);
+        }
+    });
+
+    // Carregar membros quando a página carregar
+    document.addEventListener('DOMContentLoaded', loadMembers);
+</script>
+
+</body>
+</html>

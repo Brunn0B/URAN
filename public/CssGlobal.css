@@ -1,0 +1,97 @@
+/* ============================================= */
+/* NAVEGAÇÃO MOBILE FIXA - ESTILO GLOBAL         */
+/* ============================================= */
+
+/* Menu mobile fixo */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 26, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 247, 255, 0.2);
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-nav-list {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.mobile-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--light);
+    text-decoration: none;
+    font-size: 0.7rem;
+    padding: 5px;
+    transition: all 0.3s;
+}
+
+.mobile-nav-link i {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.mobile-nav-link:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.mobile-nav-link.active {
+    color: var(--primary);
+    position: relative;
+}
+
+.mobile-nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+/* Ajustes para mobile */
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: block;
+    }
+    
+    /* Aumentar padding inferior para o conteúdo não ficar escondido atrás do menu */
+    main {
+        padding-bottom: 70px;
+    }
+    
+    /* Ajustar footer para não ficar atrás do menu */
+    footer {
+        padding-bottom: 80px;
+    }
+    
+    /* Esconder menu desktop em mobile */
+    .nav-menu {
+        display: none !important;
+    }
+    
+    /* Ajustar botão toggle para não aparecer em mobile */
+    .menu-toggle {
+        display: none !important;
+    }
+}

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builds de Navios - Clan Uran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CssGlobal.css">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #0066ff;
+            --dark: #0a0a1a;
+            --light: #e0f7ff;
+            --accent: #ff00aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--dark) 0%, #0a1232 100%);
+        }
+
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            min-height: 100px;
+            max-height: 150px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background-repeat: repeat no-repeat;
+            background-position: 0 bottom;
+            transform-origin: center bottom;
+            opacity: 0.6;
+        }
+
+        .wave-1 {
+            background-size: 50% 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%2300f7ff"/></svg>');
+            animation: wave 12s linear infinite;
+        }
+
+        .wave-2 {
+            background-size: 50% 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%230066ff" opacity=".5"/></svg>');
+            animation: wave 10s linear -5s infinite;
+        }
+
+        .wave-3 {
+            background-size: 50% 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ff00aa" opacity=".3"/></svg>');
+            animation: wave 8s linear -2s infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0) translateZ(0) scaleY(1); }
+            50% { transform: translateX(-25%) translateZ(0) scaleY(0.8); }
+            100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            padding-bottom: 250px;
+        }
+
+        header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--primary));
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { filter: drop-shadow(0 0 10px var(--primary)); }
+            100% { filter: drop-shadow(0 0 20px var(--accent)); }
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu li a {
+            color: var(--light);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .builds-container {
+            margin-top: 50px;
+        }
+
+        .builds-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .create-build-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .create-build-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.8);
+        }
+
+        .builds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .build-card {
+            background: rgba(20, 20, 40, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .build-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .build-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .build-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .build-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .build-nation {
+            padding: 3px 10px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+        }
+
+        .build-tier {
+            padding: 3px 10px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+
+        .build-type {
+            padding: 3px 10px;
+            background: rgba(255, 0, 170, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+
+        .build-ship {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .build-image {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .build-commander {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .upgrade-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(0, 247, 255, 0.2);
+        }
+
+        .upgrade-slot {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .no-builds {
+            text-align: center;
+            padding: 40px 0;
+            color: rgba(255, 255, 255, 0.5);
+            grid-column: 1 / -1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 26, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: var(--light);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px dashed rgba(0, 247, 255, 0.3);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: rgba(0, 247, 255, 0.05);
+        }
+
+        .image-upload i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 15px;
+            display: none;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.5);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .builds-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .filter-group select {
+                width: 100%;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .create-build-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeito de partículas -->
+    <div id="particles-js"></div>
+
+    <!-- Efeito de ondas -->
+    <div class="waves">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="IMG/Logo.png" alt="Clan Uran Logo">
+                <span class="logo-text">Clan Uran</span>
+            </div>
+            <!-- Menu de navegação mobile -->
+<nav class="mobile-nav">
+    <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="builds.html" class="mobile-nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Builds</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="menbros.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i>
+                <span>Membros</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="estatistica.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Estatísticas</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="#" class="mobile-nav-link">
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menbros.html">Membros</a></li>
+                    <li><a href="estatistica.html">Estatísticas</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="builds-container">
+                <div class="builds-header">
+                    <h2 class="section-title">Builds do Clan</h2>
+                    
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="nation-filter">Nação:</label>
+                            <select id="nation-filter">
+                                <option value="">Todas</option>
+                                <option value="EUA">EUA</option>
+                                <option value="Japão">Japão</option>
+                                <option value="Britânicos">Britânicos</option>
+                                <option value="Holanda">Holanda</option>
+                                <option value="China">China</option>
+                                <option value="URSS">URSS</option>
+                                <option value="Alemanha">Alemanha</option>
+                                <option value="França">França</option>
+                                <option value="Pan America">Pan America</option>
+                                <option value="Paises Baixos">Países Baixos</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="type-filter">Tipo:</label>
+                            <select id="type-filter">
+                                <option value="">Todos</option>
+                                <option value="Rush">Rush</option>
+                                <option value="Sniper">Sniper</option>
+                                <option value="Tank">Tank</option>
+                                <option value="Suporte">Suporte</option>
+                                <option value="Híbrido">Híbrido</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        
+                        <button id="create-build-btn" class="create-build-btn">Criar Build</button>
+                    </div>
+                </div>
+                
+                <div class="builds-grid" id="builds-grid">
+                    <div class="no-builds">Carregando builds...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Criação -->
+    <div id="build-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Criar Nova Build</h2>
+            
+            <form id="build-form">
+                <div class="form-group">
+                    <label for="buildName">Nome da Build*</label>
+                    <input type="text" id="buildName" required placeholder="Ex: Build Sniper Montana">
+                    <div class="error-message" id="buildName-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shipName">Nome do Navio*</label>
+                    <input type="text" id="shipName" required placeholder="Ex: Yamato, Montana, Bismarck">
+                    <div class="error-message" id="shipName-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="shipTier">Tier do Navio*</label>
+                    <select id="shipTier" required>
+                        <option value="">Selecione o tier</option>
+                        <option value="Tier I">Tier I</option>
+                        <option value="Tier II">Tier II</option>
+                        <option value="Tier III">Tier III</option>
+                        <option value="Tier IV">Tier IV</option>
+                        <option value="Tier V">Tier V</option>
+                        <option value="Tier VI">Tier VI</option>
+                        <option value="Tier VII">Tier VII</option>
+                        <option value="Tier VIII">Tier VIII</option>
+                        <option value="Tier Lendário">Tier Lendário</option>
+                    </select>
+                    <div class="error-message" id="shipTier-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="nation">Nação*</label>
+                    <select id="nation" required>
+                        <option value="">Selecione uma nação</option>
+                        <option value="EUA">EUA</option>
+                        <option value="Japão">Japão</option>
+                        <option value="Britânicos">Britânicos</option>
+                        <option value="Holanda">Holanda</option>
+                        <option value="China">China</option>
+                        <option value="URSS">URSS</option>
+                        <option value="Alemanha">Alemanha</option>
+                        <option value="França">França</option>
+                        <option value="Pan America">Pan America</option>
+                        <option value="Paises Baixos">Países Baixos</option>
+                    </select>
+                    <div class="error-message" id="nation-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="buildType">Tipo de Build*</label>
+                    <select id="buildType" required>
+                        <option value="">Selecione um tipo</option>
+                        <option value="Rush">Rush</option>
+                        <option value="Sniper">Sniper</option>
+                        <option value="Tank">Tank</option>
+                        <option value="Suporte">Suporte</option>
+                        <option value="Híbrido">Híbrido</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                    <div class="error-message" id="buildType-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Imagem do Navio*</label>
+                    <label class="image-upload" for="shipImage">
+                        <i class="fas fa-upload"></i>
+                        <span>Clique para enviar uma imagem (max 500KB)</span>
+                        <input type="file" id="shipImage" accept="image/*" required>
+                        <img id="imagePreview" class="image-preview" alt="Pré-visualização da imagem">
+                    </label>
+                    <div class="error-message" id="shipImage-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commanderName">Nome do Comandante*</label>
+                    <input type="text" id="commanderName" required placeholder="Ex: William Halsey">
+                    <div class="error-message" id="commanderName-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="commanderBuild">Build do Comandante*</label>
+                    <textarea id="commanderBuild" required placeholder="Descreva as habilidades escolhidas para o comandante"></textarea>
+                    <div class="error-message" id="commanderBuild-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot1">Slot 1</label>
+                    <input type="text" id="slot1" placeholder="Ex: Sistema de Controle de Avarias">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot2">Slot 2</label>
+                    <input type="text" id="slot2" placeholder="Ex: Artilharia Principal Mod. 2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot3">Slot 3</label>
+                    <input type="text" id="slot3" placeholder="Ex: Sistema de Direção Mod. 1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot4">Slot 4</label>
+                    <input type="text" id="slot4" placeholder="Ex: Sistema de Propulsão Mod. 2">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot5">Slot 5</label>
+                    <input type="text" id="slot5" placeholder="Ex: Sistema de Ocultação Mod. 1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="slot6">Slot 6</label>
+                    <input type="text" id="slot6" placeholder="Ex: Melhoria de Artilharia Principal">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Descrição (Opcional)</label>
+                    <textarea id="description" placeholder="Adicione detalhes sobre como usar esta build, dicas, etc."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Criar Build</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="JsGlobal.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializar partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: ["#00f7ff", "#0066ff", "#ff00aa"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00f7ff", opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1 }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            }
+        });
+
+        // Variáveis globais
+        let shipImageBase64 = '';
+        let buildsData = [];
+
+        // Elementos do DOM
+        const buildModal = document.getElementById('build-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const createBuildBtn = document.getElementById('create-build-btn');
+        const buildForm = document.getElementById('build-form');
+        const buildsGrid = document.getElementById('builds-grid');
+        const nationFilter = document.getElementById('nation-filter');
+        const typeFilter = document.getElementById('type-filter');
+
+        // Abrir modal
+        createBuildBtn.addEventListener('click', () => {
+            buildModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Fechar modal
+        closeModal.addEventListener('click', () => {
+            buildModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Fechar modal ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === buildModal) {
+                buildModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Preview da imagem e conversão para Base64
+        document.getElementById('shipImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const errorElement = document.getElementById('shipImage-error');
+            
+            // Limpar erros
+            errorElement.style.display = 'none';
+            errorElement.textContent = '';
+            
+            if (!file) {
+                shipImageBase64 = '';
+                document.getElementById('imagePreview').style.display = 'none';
+                return;
+            }
+            
+            // Verificar tamanho do arquivo (max 500KB)
+            if (file.size > 500 * 1024) {
+                errorElement.textContent = 'A imagem deve ter no máximo 500KB';
+                errorElement.style.display = 'block';
+                this.value = '';
+                return;
+            }
+            
+            // Verificar tipo do arquivo
+            if (!file.type.match('image.*')) {
+                errorElement.textContent = 'Por favor, selecione um arquivo de imagem';
+                errorElement.style.display = 'block';
+                this.value = '';
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('imagePreview');
+                preview.src = event.target.result;
+                preview.style.display = 'block';
+                shipImageBase64 = event.target.result.split(',')[1]; // Remove o prefixo
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Carregar builds do servidor
+        async function loadBuilds() {
+            try {
+                buildsGrid.innerHTML = '<div class="no-builds">Carregando builds...</div>';
+                
+                const response = await fetch('/api/builds');
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar builds');
+                }
+                
+                buildsData = await response.json();
+                renderBuilds(buildsData);
+            } catch (error) {
+                console.error('Erro ao carregar builds:', error);
+                buildsGrid.innerHTML = '<div class="no-builds">Erro ao carregar builds. Tente recarregar a página.</div>';
+            }
+        }
+
+        // Renderizar builds na tela
+        function renderBuilds(builds) {
+            if (builds.length === 0) {
+                buildsGrid.innerHTML = '<div class="no-builds">Nenhuma build cadastrada ainda. Seja o primeiro!</div>';
+                return;
+            }
+            
+            buildsGrid.innerHTML = '';
+            
+            builds.forEach(build => {
+                const buildCard = document.createElement('div');
+                buildCard.className = 'build-card';
+                buildCard.innerHTML = `
+                    <div class="build-header">
+                        <h3 class="build-title">${build.buildName}</h3>
+                        <div class="build-meta">
+                            <span class="build-nation">${build.nation}</span>
+                            <span class="build-tier">${build.shipTier}</span>
+                            <span class="build-type">${build.buildType}</span>
+                        </div>
+                    </div>
+                    <div class="build-ship">${build.shipName}</div>
+                    ${build.shipImage ? `<img src="data:image/jpeg;base64,${build.shipImage}" class="build-image" alt="${build.shipName}">` : ''}
+                    <div class="build-commander">
+                        <strong>Comandante:</strong> ${build.commanderName}
+                        <div>${build.commanderBuild}</div>
+                    </div>
+                    ${build.description ? `<p>${build.description}</p>` : ''}
+                    <div class="build-upgrades">
+                        <h4>Melhorias:</h4>
+                        ${build.upgrades.map(upgrade => `
+                            <div class="upgrade-item">
+                                <span class="upgrade-slot">Slot ${upgrade.slot}</span>
+                                <span>${upgrade.choice}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                buildsGrid.appendChild(buildCard);
+            });
+        }
+
+        // Filtrar builds
+        function filterBuilds() {
+            const nationValue = nationFilter.value;
+            const typeValue = typeFilter.value;
+            
+            let filteredBuilds = buildsData;
+            
+            if (nationValue) {
+                filteredBuilds = filteredBuilds.filter(build => build.nation === nationValue);
+            }
+            
+            if (typeValue) {
+                filteredBuilds = filteredBuilds.filter(build => build.buildType === typeValue);
+            }
+            
+            renderBuilds(filteredBuilds);
+        }
+
+        // Event listeners para filtros
+        nationFilter.addEventListener('change', filterBuilds);
+        typeFilter.addEventListener('change', filterBuilds);
+
+        // Enviar nova build para o servidor
+        buildForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Resetar mensagens de erro
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+                el.textContent = '';
+            });
+            
+            // Validar campos obrigatórios
+            let isValid = true;
+            const requiredFields = [
+                'buildName', 'shipName', 'shipTier', 'nation', 
+                'buildType', 'shipImage', 'commanderName', 'commanderBuild'
+            ];
+            
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                const errorElement = document.getElementById(`${field}-error`);
+                
+                if (!element.value) {
+                    errorElement.textContent = 'Este campo é obrigatório';
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) return;
+            
+            // Coletar dados do formulário
+            const buildData = {
+                buildName: document.getElementById('buildName').value,
+                shipName: document.getElementById('shipName').value,
+                shipTier: document.getElementById('shipTier').value,
+                nation: document.getElementById('nation').value,
+                buildType: document.getElementById('buildType').value,
+                shipImage: shipImageBase64,
+                commanderName: document.getElementById('commanderName').value,
+                commanderBuild: document.getElementById('commanderBuild').value,
+                upgrades: [
+                    { slot: 1, choice: document.getElementById('slot1').value },
+                    { slot: 2, choice: document.getElementById('slot2').value },
+                    { slot: 3, choice: document.getElementById('slot3').value },
+                    { slot: 4, choice: document.getElementById('slot4').value },
+                    { slot: 5, choice: document.getElementById('slot5').value },
+                    { slot: 6, choice: document.getElementById('slot6').value }
+                ].filter(upgrade => upgrade.choice),
+                description: document.getElementById('description').value
+            };
+            
+            try {
+                const response = await fetch('/api/builds', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(buildData)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Erro ao criar build');
+                }
+                
+                // Limpar formulário e fechar modal
+                buildForm.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                shipImageBase64 = '';
+                buildModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Recarregar builds
+                await loadBuilds();
+                
+                // Mostrar mensagem de sucesso
+                alert('Build criada com sucesso!');
+            } catch (error) {
+                console.error('Erro:', error);
+                alert(error.message || 'Erro ao criar build. Tente novamente.');
+            }
+        });
+
+        // Carregar builds quando a página carregar
+        document.addEventListener('DOMContentLoaded', loadBuilds);
+    </script>
+</body>
+</html>

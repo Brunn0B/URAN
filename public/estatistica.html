@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas - Clan Uran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CssGlobal.css">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #0066ff;
+            --dark: #0a0a1a;
+            --light: #e0f7ff;
+            --accent: #ff00aa;
+            --gray: #777777;
+            --bronze: #cd7f32;
+            --silver: #c0c0c0;
+            --gold: #ffd700;
+            --platinum: #e5e4e2;
+            --diamond: #b9f2ff;
+            --legend: #ff00aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Efeito de partículas */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--dark) 0%, #0a1232 100%);
+        }
+
+        /* Efeito de ondas */
+        .waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            min-height: 100px;
+            max-height: 150px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background-repeat: repeat no-repeat;
+            background-position: 0 bottom;
+            transform-origin: center bottom;
+            opacity: 0.6;
+        }
+
+        .wave-1 {
+            background-size: 50% 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%2300f7ff"/></svg>');
+            animation: wave 12s linear infinite;
+        }
+
+        .wave-2 {
+            background-size: 50% 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%230066ff" opacity=".5"/></svg>');
+            animation: wave 10s linear -5s infinite;
+        }
+
+        .wave-3 {
+            background-size: 50% 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ff00aa" opacity=".3"/></svg>');
+            animation: wave 8s linear -2s infinite;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0) translateZ(0) scaleY(1); }
+            50% { transform: translateX(-25%) translateZ(0) scaleY(0.8); }
+            100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            padding-bottom: 250px;
+        }
+
+        /* Cabeçalho */
+        header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            filter: drop-shadow(0 0 10px var(--primary));
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { filter: drop-shadow(0 0 10px var(--primary)); }
+            100% { filter: drop-shadow(0 0 20px var(--accent)); }
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-menu li a {
+            color: var(--light);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        /* Conteúdo principal */
+        .stats-container {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .stats-section {
+            background: rgba(10, 10, 26, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 8px;
+            color: var(--light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+
+        .calculate-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.8);
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .winrate-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .winrate-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+            transition: color 0.3s;
+        }
+
+        .winrate-tier {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .matches-needed {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .matches-needed span {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .tier-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .tier {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .tier.gray {
+            background: rgba(119, 119, 119, 0.2);
+            border: 1px solid var(--gray);
+        }
+
+        .tier.bronze {
+            background: rgba(205, 127, 50, 0.2);
+            border: 1px solid var(--bronze);
+        }
+
+        .tier.silver {
+            background: rgba(192, 192, 192, 0.2);
+            border: 1px solid var(--silver);
+        }
+
+        .tier.gold {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid var(--gold);
+        }
+
+        .tier.platinum {
+            background: rgba(229, 228, 226, 0.2);
+            border: 1px solid var(--platinum);
+        }
+
+        .tier.diamond {
+            background: rgba(185, 242, 255, 0.2);
+            border: 1px solid var(--diamond);
+        }
+
+        .tier.legend {
+            background: rgba(255, 0, 170, 0.2);
+            border: 1px solid var(--legend);
+        }
+
+        .tier-range {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .tier-name {
+            font-family: 'Orbitron', sans-serif;
+            margin: 5px 0;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .winrate-value {
+                font-size: 3rem;
+            }
+            
+            .tier-info {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .logo img {
+                height: 40px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .stats-section {
+                padding: 20px;
+            }
+            
+            .winrate-value {
+                font-size: 2.5rem;
+            }
+            
+            .tier-info {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeito de partículas -->
+    <div id="particles-js"></div>
+
+    <!-- Efeito de ondas -->
+    <div class="waves">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="IMG/Logo.png" alt="Clan Uran Logo">
+                <span class="logo-text">Clan Uran</span>
+            </div>
+            <!-- Menu de navegação mobile -->
+<nav class="mobile-nav">
+    <ul class="mobile-nav-list">
+        <li class="mobile-nav-item">
+            <a href="index.html" class="mobile-nav-link">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="builds.html" class="mobile-nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Builds</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="menbros.html" class="mobile-nav-link">
+                <i class="fas fa-users"></i>
+                <span>Membros</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="estatistica.html" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i>
+                <span>Estatísticas</span>
+            </a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="#" class="mobile-nav-link">
+                <i class="fas fa-info-circle"></i>
+                <span>Sobre</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="builds.html">Builds</a></li>
+                    <li><a href="menbros.html">Membros</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="stats-container">
+                <section class="stats-section">
+                    <h2 class="section-title">Calculadora de Winrate</h2>
+                    <p>Calcule seu percentual de vitórias e veja quantas partidas faltam para alcançar o próximo patamar.</p>
+                    
+                    <div class="form-group">
+                        <label for="total-matches">Total de Partidas Jogadas</label>
+                        <input type="number" id="total-matches" placeholder="Ex: 1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wins">Vitórias</label>
+                        <input type="number" id="wins" placeholder="Ex: 520">
+                    </div>
+                    
+                    <button id="calculate-btn" class="calculate-btn">Calcular</button>
+                    
+                    <div id="results" class="results">
+                        <div class="winrate-container">
+                            <div class="winrate-tier" id="winrate-tier">Classificação</div>
+                            <div class="winrate-value" id="winrate-value">0%</div>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-bar">
+                                    <span class="progress-text" id="progress-text">0%</span>
+                                </div>
+                            </div>
+                            <div class="matches-needed" id="matches-needed">
+                                Você precisa de <span id="needed-wins">0</span> vitórias nas próximas <span id="needed-matches">0</span> partidas para alcançar <span id="next-tier">50%</span>.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="stats-section">
+                    <h2 class="section-title">Tabela de Classificação</h2>
+                    <p>Veja as faixas de porcentagem e suas respectivas classificações:</p>
+                    
+                    <div class="tier-info">
+                        <div class="tier gray">
+                            <div class="tier-range">≤ 49%</div>
+                            <div class="tier-name">Ferro</div>
+                            <div>Iniciante</div>
+                        </div>
+                        
+                        <div class="tier bronze">
+                            <div class="tier-range">50% - 52%</div>
+                            <div class="tier-name">Bronze</div>
+                            <div>Básico</div>
+                        </div>
+                        
+                        <div class="tier silver">
+                            <div class="tier-range">53% - 55%</div>
+                            <div class="tier-name">Prata</div>
+                            <div>Intermediário</div>
+                        </div>
+                        
+                        <div class="tier gold">
+                            <div class="tier-range">56% - 59%</div>
+                            <div class="tier-name">Ouro</div>
+                            <div>Avançado</div>
+                        </div>
+                        
+                        <div class="tier platinum">
+                            <div class="tier-range">60% - 62%</div>
+                            <div class="tier-name">Platina</div>
+                            <div>Especialista</div>
+                        </div>
+                        
+                        <div class="tier diamond">
+                            <div class="tier-range">63% - 65%</div>
+                            <div class="tier-name">Diamante</div>
+                            <div>Elite</div>
+                        </div>
+                        
+                        <div class="tier legend">
+                            <div class="tier-range">≥ 66%</div>
+                            <div class="tier-name">Lendário</div>
+                            <div>Mestre</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="JsGlobal.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Inicializar partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: ["#00f7ff", "#0066ff", "#ff00aa"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00f7ff", opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 1 }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            }
+        });
+
+        // Elementos do DOM
+        const calculateBtn = document.getElementById('calculate-btn');
+        const totalMatchesInput = document.getElementById('total-matches');
+        const winsInput = document.getElementById('wins');
+        const resultsDiv = document.getElementById('results');
+        const winrateValue = document.getElementById('winrate-value');
+        const winrateTier = document.getElementById('winrate-tier');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const neededWins = document.getElementById('needed-wins');
+        const neededMatches = document.getElementById('needed-matches');
+        const nextTier = document.getElementById('next-tier');
+
+        // Calcular winrate
+        calculateBtn.addEventListener('click', () => {
+            const totalMatches = parseInt(totalMatchesInput.value);
+            const wins = parseInt(winsInput.value);
+            
+            // Validar entrada
+            if (isNaN(totalMatches)) {
+                alert('Por favor, insira o número total de partidas');
+                return;
+            }
+            
+            if (isNaN(wins)) {
+                alert('Por favor, insira o número de vitórias');
+                return;
+            }
+            
+            if (wins > totalMatches) {
+                alert('O número de vitórias não pode ser maior que o total de partidas');
+                return;
+            }
+            
+            // Calcular winrate
+            const winrate = (wins / totalMatches) * 100;
+            const roundedWinrate = Math.round(winrate * 10) / 10;
+            
+            // Atualizar display
+            winrateValue.textContent = `${roundedWinrate}%`;
+            progressBar.style.width = `${winrate}%`;
+            progressText.textContent = `${roundedWinrate}%`;
+            
+            // Determinar tier e cor
+            let tier, tierColor, nextTierValue, nextTierName;
+            
+            if (winrate < 50) {
+                tier = 'Ferro';
+                tierColor = '#777777';
+                nextTierValue = 50;
+                nextTierName = 'Bronze';
+            } else if (winrate < 53) {
+                tier = 'Bronze';
+                tierColor = '#cd7f32';
+                nextTierValue = 53;
+                nextTierName = 'Prata';
+            } else if (winrate < 56) {
+                tier = 'Prata';
+                tierColor = '#c0c0c0';
+                nextTierValue = 56;
+                nextTierName = 'Ouro';
+            } else if (winrate < 60) {
+                tier = 'Ouro';
+                tierColor = '#ffd700';
+                nextTierValue = 60;
+                nextTierName = 'Platina';
+            } else if (winrate < 63) {
+                tier = 'Platina';
+                tierColor = '#e5e4e2';
+                nextTierValue = 63;
+                nextTierName = 'Diamante';
+            } else if (winrate < 66) {
+                tier = 'Diamante';
+                tierColor = '#b9f2ff';
+                nextTierValue = 66;
+                nextTierName = 'Lendário';
+            } else {
+                tier = 'Lendário';
+                tierColor = '#ff00aa';
+                nextTierValue = 66;
+                nextTierName = 'Lendário';
+            }
+            
+            // Aplicar cor
+            winrateValue.style.color = tierColor;
+            winrateTier.textContent = tier;
+            winrateTier.style.color = tierColor;
+            
+            // Calcular partidas necessárias para próximo tier
+            if (winrate >= 66) {
+                neededWins.textContent = '0';
+                neededMatches.textContent = '0';
+                nextTier.textContent = '66% (Máximo)';
+                document.getElementById('matches-needed').textContent = 'Você alcançou o nível máximo!';
+            } else {
+                const neededWinrate = nextTierValue / 100;
+                const currentWinrate = wins / totalMatches;
+                
+                // Fórmula para calcular partidas necessárias
+                // (wins + x) / (totalMatches + x) = neededWinrate
+                // Resolvendo para x:
+                const x = Math.ceil((neededWinrate * totalMatches - wins) / (1 - neededWinrate));
+                
+                neededWins.textContent = Math.ceil(x * neededWinrate);
+                neededMatches.textContent = x;
+                nextTier.textContent = `${nextTierValue}% (${nextTierName})`;
+                
+                document.getElementById('matches-needed').innerHTML = 
+                    `Você precisa de <span style="color: ${tierColor}">${Math.ceil(x * neededWinrate)}</span> vitórias nas próximas <span style="color: ${tierColor}">${x}</span> partidas para alcançar <span style="color: ${tierColor}">${nextTierValue}% (${nextTierName})</span>.`;
+            }
+            
+            // Mostrar resultados
+            resultsDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
