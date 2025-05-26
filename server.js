@@ -7,13 +7,16 @@ const path = require('path');
 
 const app = express();
 
-// Configuração do MongoDB
+// Configuração do MongoDB - Versão atualizada
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('Conectado ao MongoDB'))
-.catch(err => console.error('Erro ao conectar ao MongoDB:', err));
+.then(() => console.log('Conectado ao MongoDB com sucesso!'))
+.catch(err => {
+    console.error('Erro ao conectar ao MongoDB:', err.message);
+    process.exit(1); // Encerra o aplicativo se não conseguir conectar
+});
 
 // Modelo para as builds
 const BuildSchema = new mongoose.Schema({
@@ -123,7 +126,6 @@ app.post('/api/builds', async (req, res) => {
 });
 
 // Rotas da API para Membros
-// Rotas da API para Membros
 app.get('/api/members', async (req, res) => {
     try {
         const members = await Member.find().sort({ rank: 1, createdAt: 1 });
@@ -196,68 +198,6 @@ app.post('/api/members', async (req, res) => {
     }
 });
 
-app.put('/api/members/:id', async (req, res) => {
-    try {
-        const { nickname, rank, image, status } = req.body;
-        
-        if (!nickname || !rank) {
-            return res.status(400).json({ error: 'Nickname e posição são obrigatórios' });
-        }
-
-        if (image && image.length > 700000) {
-            return res.status(400).json({ error: 'A imagem deve ter no máximo 500KB' });
-        }
-
-        const member = await Member.findById(req.params.id);
-        if (!member) {
-            return res.status(404).json({ error: 'Membro não encontrado' });
-        }
-
-        if (nickname !== member.nickname) {
-            const nicknameExists = await Member.findOne({ nickname });
-            if (nicknameExists) {
-                return res.status(400).json({ error: 'Este nickname já está em uso' });
-            }
-        }
-
-        if (rank === 'commander' && member.rank !== 'commander') {
-            const commanderExists = await Member.findOne({ rank: 'commander' });
-            if (commanderExists && commanderExists._id.toString() !== req.params.id) {
-                return res.status(400).json({ 
-                    error: 'Já existe um comandante. Apenas um comandante é permitido.' 
-                });
-            }
-        }
-
-        member.nickname = nickname;
-        member.rank = rank;
-        member.image = image || member.image;
-        member.status = status || member.status;
-        member.updatedAt = new Date();
-
-        await member.save();
-        res.json(member);
-    } catch (err) {
-        console.error('Erro ao atualizar membro:', err);
-        res.status(400).json({ error: 'Erro ao atualizar membro' });
-    }
-});
-
-app.delete('/api/members/:id', async (req, res) => {
-    try {
-        const member = await Member.findByIdAndDelete(req.params.id);
-        
-        if (!member) {
-            return res.status(404).json({ error: 'Membro não encontrado' });
-        }
-
-        res.json({ message: 'Membro removido com sucesso' });
-    } catch (err) {
-        console.error('Erro ao remover membro:', err);
-        res.status(500).json({ error: 'Erro ao remover membro' });
-    }
-});
-
 // Rotas para servir os arquivos HTML
 app.get('/builds', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'builds.html'));
@@ -267,6 +207,10 @@ app.get('/membros', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'membros.html'));
 });
 
+app.get('/estatistica', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'estatistica.html'));
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -274,7 +218,10 @@ app.get('/', (req, res) => {
 // Middleware para tratamento de erros
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ error: 'Ocorreu um erro no servidor' });
+    res.status(500).json({
+        success: false,
+        error: 'Ocorreu um erro no servidor'
+    });
 });
 
 // Iniciar servidor
