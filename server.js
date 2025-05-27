@@ -7,7 +7,7 @@ const path = require('path');
 
 const app = express();
 
-// Configuração do MongoDB - Versão atualizada
+// Configuração do MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -15,10 +15,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('Conectado ao MongoDB com sucesso!'))
 .catch(err => {
     console.error('Erro ao conectar ao MongoDB:', err.message);
-    process.exit(1); // Encerra o aplicativo se não conseguir conectar
+    process.exit(1);
 });
 
-// Modelo para as builds
+// Modelo para as builds (mantido igual)
 const BuildSchema = new mongoose.Schema({
     buildName: { type: String, required: true },
     shipName: { type: String, required: true },
@@ -50,14 +50,13 @@ const BuildSchema = new mongoose.Schema({
 
 const Build = mongoose.model('Build', BuildSchema);
 
-// Modelo para os membros
+// Modelo para os membros (simplificado como nas builds)
 const MemberSchema = new mongoose.Schema({
     nickname: { 
         type: String, 
         required: true, 
         unique: true,
-        trim: true,
-        maxlength: 20
+        trim: true
     },
     rank: { 
         type: String, 
@@ -65,25 +64,8 @@ const MemberSchema = new mongoose.Schema({
         enum: ['commander', 'vice', 'officer', 'member'],
         default: 'member'
     },
-    image: { 
-        type: String,
-        validate: {
-            validator: function(v) {
-                return v === null || v.length < 700000;
-            },
-            message: 'A imagem deve ter no máximo 500KB'
-        }
-    },
-    joinDate: { type: Date, default: Date.now },
-    lastActive: { type: Date, default: Date.now },
-    status: {
-        type: String,
-        enum: ['active', 'inactive', 'on_leave'],
-        default: 'active'
-    },
-    contributions: { type: Number, default: 0 }
-}, {
-    timestamps: true
+    image: { type: String }, // Removida validação temporariamente
+    joinDate: { type: Date, default: Date.now }
 });
 
 const Member = mongoose.model('Member', MemberSchema);
@@ -93,7 +75,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rotas da API para Builds
+// Rotas da API para Builds (mantido igual)
 app.get('/api/builds', async (req, res) => {
     try {
         const builds = await Build.find().sort({ createdAt: -1 });
@@ -112,10 +94,6 @@ app.post('/api/builds', async (req, res) => {
             return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos' });
         }
 
-        if (req.body.shipImage.length > 700000) {
-            return res.status(400).json({ error: 'A imagem é muito grande (máximo 500KB)' });
-        }
-
         const newBuild = new Build(req.body);
         await newBuild.save();
         res.status(201).json(newBuild);
@@ -125,80 +103,52 @@ app.post('/api/builds', async (req, res) => {
     }
 });
 
-// Rotas da API para Membros
+// Rotas da API para Membros (reestruturado como builds)
 app.get('/api/members', async (req, res) => {
     try {
-        const members = await Member.find().sort({ rank: 1, createdAt: 1 });
-        res.json({
-            success: true,
-            data: members
-        });
+        const members = await Member.find().sort({ rank: 1, joinDate: 1 });
+        res.json(members); // Retorno direto igual às builds
     } catch (err) {
         console.error('Erro ao buscar membros:', err);
-        res.status(500).json({
-            success: false,
-            error: 'Erro ao carregar membros'
-        });
+        res.status(500).json({ error: 'Erro ao carregar membros' });
     }
 });
 
 app.post('/api/members', async (req, res) => {
     try {
-        const { nickname, rank, image } = req.body;
-        
-        if (!nickname || !rank) {
-            return res.status(400).json({
-                success: false,
-                error: 'Nickname e posição são obrigatórios'
-            });
+        if (!req.body.nickname || !req.body.rank) {
+            return res.status(400).json({ error: 'Nickname e rank são obrigatórios' });
         }
 
-        if (image && image.length > 700000) {
-            return res.status(400).json({
-                success: false,
-                error: 'A imagem deve ter no máximo 500KB'
-            });
-        }
-
-        const existingMember = await Member.findOne({ nickname });
+        // Verifica se já existe um membro com o mesmo nickname
+        const existingMember = await Member.findOne({ nickname: req.body.nickname });
         if (existingMember) {
-            return res.status(400).json({
-                success: false,
-                error: 'Este nickname já está em uso'
-            });
+            return res.status(400).json({ error: 'Nickname já está em uso' });
         }
 
-        if (rank === 'commander') {
+        // Verifica se já existe um comandante
+        if (req.body.rank === 'commander') {
             const commanderExists = await Member.findOne({ rank: 'commander' });
             if (commanderExists) {
-                return res.status(400).json({ 
-                    success: false,
-                    error: 'Já existe um comandante. Apenas um comandante é permitido.' 
-                });
+                return res.status(400).json({ error: 'Já existe um comandante no clan' });
             }
         }
 
         const newMember = new Member({
-            nickname,
-            rank,
-            image: image || null
+            nickname: req.body.nickname,
+            rank: req.body.rank,
+            image: req.body.image || null
         });
 
         await newMember.save();
-        res.status(201).json({
-            success: true,
-            data: newMember
-        });
+        res.status(201).json(newMember); // Retorno direto igual às builds
     } catch (err) {
         console.error('Erro ao criar membro:', err);
-        res.status(400).json({
-            success: false,
-            error: 'Erro ao criar membro'
-        });
+        res.status(400).json({ error: 'Erro ao criar membro' });
     }
 });
 
-// Rotas para servir os arquivos HTML
+// Rotas para servir os arquivos HTML (mantido igual)
 app.get('/builds', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'builds.html'));
 });
@@ -215,16 +165,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Middleware para tratamento de erros
+// Middleware para tratamento de erros (mantido igual)
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({
-        success: false,
-        error: 'Ocorreu um erro no servidor'
-    });
+    res.status(500).json({ error: 'Ocorreu um erro no servidor' });
 });
 
-// Iniciar servidor
+// Iniciar servidor (mantido igual)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

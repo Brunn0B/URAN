@@ -670,8 +670,8 @@
     <script src="JsGlobal.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
-  <script>
-// Inicializar partículas
+ <script>
+// Inicializar partículas (igual ao de builds)
 particlesJS('particles-js', {
     particles: {
         number: { value: 60, density: { enable: true, value_area: 800 } },
@@ -692,51 +692,31 @@ particlesJS('particles-js', {
     }
 });
 
-// Variáveis globais
+// Variáveis globais (simplificadas como em builds)
 let memberImageBase64 = '';
 let membersData = [];
-let currentMemberId = null;
 
-// Elementos do DOM
-const addMemberBtn = document.getElementById('add-member-btn');
+// Elementos do DOM (estrutura similar a builds)
 const memberModal = document.getElementById('member-modal');
 const closeModal = document.querySelector('.close-modal');
+const createMemberBtn = document.getElementById('add-member-btn');
 const memberForm = document.getElementById('member-form');
 const membersGrid = document.getElementById('members-grid');
-const modalTitle = document.getElementById('modal-title');
-const memberImageInput = document.getElementById('member-image');
-const memberImagePreview = document.getElementById('member-image-preview');
+const rankFilter = document.getElementById('rank-filter'); // Adicione este filtro no HTML se necessário
 
-// Função para mostrar loading
-function showLoading(show) {
-    const submitBtn = memberForm.querySelector('.submit-btn');
-    if (show) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
-    } else {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Salvar Membro';
-    }
-}
-
-// Abrir modal para adicionar novo membro
-addMemberBtn.addEventListener('click', () => {
-    currentMemberId = null;
-    modalTitle.textContent = 'Adicionar Novo Membro';
-    memberForm.reset();
-    memberImagePreview.style.display = 'none';
-    memberImageBase64 = '';
+// Abrir modal (igual ao de builds)
+createMemberBtn.addEventListener('click', () => {
     memberModal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 });
 
-// Fechar modal
+// Fechar modal (igual ao de builds)
 closeModal.addEventListener('click', () => {
     memberModal.style.display = 'none';
     document.body.style.overflow = 'auto';
 });
 
-// Fechar modal ao clicar fora
+// Fechar modal ao clicar fora (igual ao de builds)
 window.addEventListener('click', (e) => {
     if (e.target === memberModal) {
         memberModal.style.display = 'none';
@@ -744,111 +724,86 @@ window.addEventListener('click', (e) => {
     }
 });
 
-// Preview da imagem e conversão para Base64
-memberImageInput.addEventListener('change', function(e) {
+// Preview da imagem (adaptado de builds)
+document.getElementById('member-image').addEventListener('change', function(e) {
     const file = e.target.files[0];
+    const errorElement = document.getElementById('member-image-error');
+    
+    // Limpar erros
+    errorElement.style.display = 'none';
+    errorElement.textContent = '';
     
     if (!file) {
         memberImageBase64 = '';
-        memberImagePreview.style.display = 'none';
+        document.getElementById('member-image-preview').style.display = 'none';
         return;
     }
     
     // Verificar tamanho do arquivo (max 500KB)
     if (file.size > 500 * 1024) {
-        alert('A imagem deve ter no máximo 500KB');
+        errorElement.textContent = 'A imagem deve ter no máximo 500KB';
+        errorElement.style.display = 'block';
         this.value = '';
         return;
     }
     
     // Verificar tipo do arquivo
     if (!file.type.match('image.*')) {
-        alert('Por favor, selecione um arquivo de imagem (JPEG, PNG)');
+        errorElement.textContent = 'Por favor, selecione um arquivo de imagem';
+        errorElement.style.display = 'block';
         this.value = '';
         return;
     }
     
     const reader = new FileReader();
     reader.onload = function(event) {
-        memberImagePreview.src = event.target.result;
-        memberImagePreview.style.display = 'block';
+        const preview = document.getElementById('member-image-preview');
+        preview.src = event.target.result;
+        preview.style.display = 'block';
         memberImageBase64 = event.target.result.split(',')[1]; // Remove o prefixo
-    };
-    reader.onerror = function() {
-        alert('Erro ao ler o arquivo de imagem');
-        memberImageInput.value = '';
     };
     reader.readAsDataURL(file);
 });
 
-// Carregar membros do servidor
+// Carregar membros do servidor (estilo builds)
 async function loadMembers() {
     try {
         membersGrid.innerHTML = '<div class="no-members">Carregando membros...</div>';
         
-        const response = await fetch('http://localhost:3000/api/members');
+        const response = await fetch('/api/members');
         
         if (!response.ok) {
-            throw new Error(`Erro ao carregar membros: ${response.status}`);
+            throw new Error('Erro ao carregar membros');
         }
         
-        const result = await response.json();
-        
-        if (!result.success || !Array.isArray(result.data)) {
-            throw new Error('Dados recebidos em formato inválido');
-        }
-        
-        membersData = result.data;
+        membersData = await response.json();
         renderMembers(membersData);
     } catch (error) {
         console.error('Erro ao carregar membros:', error);
-        membersGrid.innerHTML = `
-            <div class="no-members">
-                <p>Erro ao carregar membros: ${error.message}</p>
-                <button onclick="loadMembers()" class="action-btn edit-btn">
-                    <i class="fas fa-sync-alt"></i> Tentar novamente
-                </button>
-            </div>
-        `;
+        membersGrid.innerHTML = '<div class="no-members">Erro ao carregar membros. Tente recarregar a página.</div>';
     }
 }
 
-// Renderizar membros na tela
+// Renderizar membros (estilo builds)
 function renderMembers(members) {
-    if (!Array.isArray(members)) {
-        console.error('Dados de membros inválidos:', members);
-        membersGrid.innerHTML = '<div class="no-members">Erro: Dados inválidos</div>';
-        return;
-    }
-
     if (members.length === 0) {
-        membersGrid.innerHTML = `
-            <div class="no-members">
-                <p>Nenhum membro cadastrado ainda.</p>
-                <button id="add-first-member" class="action-btn edit-btn">
-                    <i class="fas fa-plus"></i> Adicionar Primeiro Membro
-                </button>
-            </div>
-        `;
-        document.getElementById('add-first-member').addEventListener('click', () => {
-            addMemberBtn.click();
-        });
+        membersGrid.innerHTML = '<div class="no-members">Nenhum membro cadastrado ainda. Seja o primeiro!</div>';
         return;
     }
-    
-    // Ordenar membros por posição
-    const rankOrder = { commander: 1, vice: 2, officer: 3, member: 4 };
-    const sortedMembers = [...members].sort((a, b) => rankOrder[a.rank] - rankOrder[b.rank]);
     
     membersGrid.innerHTML = '';
+    
+    // Ordenar por rank (commander > vice > officer > member)
+    const rankOrder = { commander: 1, vice: 2, officer: 3, member: 4 };
+    const sortedMembers = [...members].sort((a, b) => rankOrder[a.rank] - rankOrder[b.rank]);
     
     sortedMembers.forEach(member => {
         const memberCard = document.createElement('div');
         memberCard.className = `member-card ${member.rank}`;
         
-        const rankTitles = {
+        const rankNames = {
             commander: 'Comandante',
-            vice: 'Vice-Comandante', 
+            vice: 'Vice-Comandante',
             officer: 'Oficial',
             member: 'Membro'
         };
@@ -857,11 +812,11 @@ function renderMembers(members) {
             <div class="member-header">
                 ${member.image ? 
                     `<img src="data:image/jpeg;base64,${member.image}" class="member-avatar" alt="${member.nickname}">` : 
-                    `<div class="member-avatar"><i class="fas fa-user"></i></div>`
+                    '<div class="member-avatar"><i class="fas fa-user"></i></div>'
                 }
                 <div class="member-info">
                     <div class="member-name">${member.nickname}</div>
-                    <div class="member-rank">${rankTitles[member.rank] || member.rank}</div>
+                    <div class="member-rank">${rankNames[member.rank] || member.rank}</div>
                 </div>
             </div>
             <div class="member-actions">
@@ -876,7 +831,7 @@ function renderMembers(members) {
         membersGrid.appendChild(memberCard);
     });
     
-    // Adicionar event listeners para botões de edição e exclusão
+    // Adicionar event listeners para os botões
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const memberId = e.currentTarget.getAttribute('data-id');
@@ -892,6 +847,19 @@ function renderMembers(members) {
     });
 }
 
+// Filtrar membros por rank (similar ao filtro de builds)
+function filterMembers() {
+    const rankValue = rankFilter ? rankFilter.value : null;
+    
+    let filteredMembers = membersData;
+    
+    if (rankValue) {
+        filteredMembers = filteredMembers.filter(member => member.rank === rankValue);
+    }
+    
+    renderMembers(filteredMembers);
+}
+
 // Editar membro existente
 function editMember(memberId) {
     const member = membersData.find(m => m._id === memberId);
@@ -900,20 +868,23 @@ function editMember(memberId) {
         return;
     }
     
-    currentMemberId = memberId;
-    modalTitle.textContent = 'Editar Membro';
-    document.getElementById('member-id').value = member._id;
+    // Preencher formulário com os dados do membro
     document.getElementById('nickname').value = member.nickname;
     document.getElementById('rank').value = member.rank;
     
     if (member.image) {
-        memberImagePreview.src = `data:image/jpeg;base64,${member.image}`;
-        memberImagePreview.style.display = 'block';
+        const preview = document.getElementById('member-image-preview');
+        preview.src = `data:image/jpeg;base64,${member.image}`;
+        preview.style.display = 'block';
         memberImageBase64 = member.image;
     } else {
-        memberImagePreview.style.display = 'none';
+        document.getElementById('member-image-preview').style.display = 'none';
         memberImageBase64 = '';
     }
+    
+    // Armazenar ID do membro sendo editado
+    document.getElementById('member-id').value = memberId;
+    document.getElementById('modal-title').textContent = 'Editar Membro';
     
     memberModal.style.display = 'block';
     document.body.style.overflow = 'hidden';
@@ -924,74 +895,62 @@ async function deleteMember(memberId) {
     if (!confirm('Tem certeza que deseja remover este membro?')) return;
     
     try {
-        const response = await fetch(`http://localhost:3000/api/members/${memberId}`, {
+        const response = await fetch(`/api/members/${memberId}`, {
             method: 'DELETE'
         });
         
-        const result = await response.json();
-        
         if (!response.ok) {
-            throw new Error(result.error || 'Erro ao remover membro');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao remover membro');
         }
         
         await loadMembers();
-        showToast('Membro removido com sucesso!', 'success');
+        alert('Membro removido com sucesso!');
     } catch (error) {
         console.error('Erro:', error);
-        showToast(`Erro ao remover membro: ${error.message}`, 'error');
+        alert(error.message || 'Erro ao remover membro. Tente novamente.');
     }
 }
 
-// Função para mostrar notificação
-function showToast(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-        <div class="toast-message">${message}</div>
-        <button class="toast-close">&times;</button>
-    `;
-    
-    document.body.appendChild(toast);
-    
-    // Fechar toast após 5 segundos ou quando clicar no botão
-    setTimeout(() => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    }, 5000);
-    
-    toast.querySelector('.toast-close').addEventListener('click', () => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    });
-}
-
-// Enviar formulário de membro
+// Enviar formulário de membro (estilo builds)
 memberForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    showLoading(true);
     
-    const nickname = document.getElementById('nickname').value.trim();
-    const rank = document.getElementById('rank').value;
+    // Resetar mensagens de erro
+    document.querySelectorAll('.error-message').forEach(el => {
+        el.style.display = 'none';
+        el.textContent = '';
+    });
     
-    if (!nickname || !rank) {
-        showLoading(false);
-        showToast('Por favor, preencha todos os campos obrigatórios', 'error');
-        return;
-    }
+    // Validar campos obrigatórios
+    let isValid = true;
+    const requiredFields = ['nickname', 'rank'];
     
+    requiredFields.forEach(field => {
+        const element = document.getElementById(field);
+        const errorElement = document.getElementById(`${field}-error`);
+        
+        if (!element.value) {
+            errorElement.textContent = 'Este campo é obrigatório';
+            errorElement.style.display = 'block';
+            isValid = false;
+        }
+    });
+    
+    if (!isValid) return;
+    
+    // Coletar dados do formulário
     const memberData = {
-        nickname,
-        rank,
+        nickname: document.getElementById('nickname').value,
+        rank: document.getElementById('rank').value,
         image: memberImageBase64 || null
     };
     
+    const memberId = document.getElementById('member-id').value;
+    const method = memberId ? 'PUT' : 'POST';
+    const url = memberId ? `/api/members/${memberId}` : '/api/members';
+    
     try {
-        const url = currentMemberId 
-            ? `http://localhost:3000/api/members/${currentMemberId}` 
-            : 'http://localhost:3000/api/members';
-        
-        const method = currentMemberId ? 'PUT' : 'POST';
-        
         const response = await fetch(url, {
             method,
             headers: {
@@ -1000,95 +959,38 @@ memberForm.addEventListener('submit', async function(e) {
             body: JSON.stringify(memberData)
         });
         
-        const result = await response.json();
-        
         if (!response.ok) {
-            throw new Error(result.error || 'Erro ao salvar membro');
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao salvar membro');
         }
         
         // Limpar formulário e fechar modal
         memberForm.reset();
-        memberImagePreview.style.display = 'none';
+        document.getElementById('member-image-preview').style.display = 'none';
         memberImageBase64 = '';
+        document.getElementById('member-id').value = '';
         memberModal.style.display = 'none';
         document.body.style.overflow = 'auto';
         
+        // Recarregar membros
         await loadMembers();
         
-        showToast(
-            currentMemberId ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!',
-            'success'
-        );
+        // Mostrar mensagem de sucesso
+        alert(memberId ? 'Membro atualizado com sucesso!' : 'Membro adicionado com sucesso!');
     } catch (error) {
         console.error('Erro:', error);
-        showToast(`Erro ao salvar membro: ${error.message}`, 'error');
-    } finally {
-        showLoading(false);
+        alert(error.message || 'Erro ao salvar membro. Tente novamente.');
     }
 });
 
-// Carregar membros quando a página carregar
+// Inicializar (igual ao de builds)
 document.addEventListener('DOMContentLoaded', () => {
     loadMembers();
     
-    // Adicionar estilos para as notificações
-    const toastStyles = document.createElement('style');
-    toastStyles.textContent = `
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 5px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-width: 250px;
-            max-width: 300px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
-            transform: translateY(100px);
-            opacity: 0;
-            animation: slideIn 0.3s forwards;
-        }
-        
-        .toast-success {
-            background-color: #28a745;
-        }
-        
-        .toast-error {
-            background-color: #dc3545;
-        }
-        
-        .toast-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-left: 15px;
-        }
-        
-        .fade-out {
-            animation: fadeOut 0.3s forwards;
-        }
-        
-        @keyframes slideIn {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                transform: translateY(100px);
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(toastStyles);
+    // Adicionar event listener para filtro se existir
+    if (rankFilter) {
+        rankFilter.addEventListener('change', filterMembers);
+    }
 });
 </script>
 
