@@ -50,6 +50,7 @@ const BuildSchema = new mongoose.Schema({
 
 const Build = mongoose.model('Build', BuildSchema);
 
+
 // Modelo para os membros (simplificado como nas builds)
 const MemberSchema = new mongoose.Schema({
     nickname: { 
@@ -64,7 +65,7 @@ const MemberSchema = new mongoose.Schema({
         enum: ['commander', 'vice', 'officer', 'member'],
         default: 'member'
     },
-    image: { type: String }, // Removida validação temporariamente
+    image: { type: String }, // Sem validações de tamanho
     joinDate: { type: Date, default: Date.now }
 });
 
@@ -72,7 +73,8 @@ const Member = mongoose.model('Member', MemberSchema);
 
 // Middlewares
 app.use(cors());
-app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rotas da API para Builds (mantido igual)
@@ -163,6 +165,43 @@ app.get('/estatistica', (req, res) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Adicione esta rota no seu server.js
+app.put('/api/members/:id', async (req, res) => {
+    try {
+        const memberId = req.params.id;
+        const updates = req.body;
+
+        // Verificar se o membro existe
+        const existingMember = await Member.findById(memberId);
+        if (!existingMember) {
+            return res.status(404).json({ error: 'Membro não encontrado' });
+        }
+
+        // Verificar se está tentando mudar para comandante e já existe um
+        if (updates.rank === 'commander' && existingMember.rank !== 'commander') {
+            const commanderExists = await Member.findOne({ rank: 'commander', _id: { $ne: memberId } });
+            if (commanderExists) {
+                return res.status(400).json({ error: 'Já existe um comandante no clan' });
+            }
+        }
+
+        // Verificar se o nickname já está em uso por outro membro
+        if (updates.nickname && updates.nickname !== existingMember.nickname) {
+            const nicknameExists = await Member.findOne({ nickname: updates.nickname, _id: { $ne: memberId } });
+            if (nicknameExists) {
+                return res.status(400).json({ error: 'Nickname já está em uso' });
+            }
+        }
+
+        // Atualizar o membro
+        const updatedMember = await Member.findByIdAndUpdate(memberId, updates, { new: true });
+        res.json(updatedMember);
+    } catch (err) {
+        console.error('Erro ao atualizar membro:', err);
+        res.status(400).json({ error: 'Erro ao atualizar membro' });
+    }
 });
 
 // Middleware para tratamento de erros (mantido igual)
